@@ -11,18 +11,18 @@ function editNav() {
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
-const submitBtn = document.querySelector(".btn-submit");
 const form = document.getElementById("form");
+const success = document.getElementById("success");
+const successBtn = document.querySelector(".btn-success");
+
 const regex ={
     name: /^[A-Za-zÀ-ÖØ-öø-ÿ]+$/, 
     email:  /^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9-]+\.[A-Za-z0-9-]+$/,
     quantity: /^\d{1,}$/
 };
 
-console.log(form);
-
 // Date of birth limit
-let date = new Date();
+var date = new Date();
 var day = date.getDate();
 var month = date.getMonth() + 1;
 var year = date.getFullYear()-14;
@@ -33,6 +33,7 @@ if (month < 10) {
     month = '0' + month;
 } 
 const maxDOB = year +'-'+ month +'-'+ day;
+const minDOB = '1900-01-01';
 form.birthdate.max = maxDOB;
 
 // launch modal event
@@ -41,73 +42,88 @@ modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 // launch modal form
 function launchModal() {
   modalbg.style.display = "block";
+  form.style.display = "block";
 }
 
 // Close modal form
 function closeModal() {
     modalbg.style.display = "none";
+    success.style.display = "none";
 }
 
+// Close modal event
+successBtn.addEventListener("click",closeModal);
+
 // Form validation
-form.addEventListener("submit", (e) => {
-    console.clear();
+function validate() {
     let formValid = true;
+
+    // Message error
+    function errorMessage(input, message) {
+        input.parentNode.setAttribute("data-error-visible","true")
+        input.parentNode.setAttribute("data-error",message)
+        formValid = false;
+    }
 
     // Firstname validation length and caracters
     if(form.first.value.trim().length < 2) {
-        form.first.classList.add("error")
-        console.log("Veuillez entrer 2 caractères ou plus pour le champ du prénom.")
-        formValid = false;
+        errorMessage(form.first,"Veuillez entrer 2 caractères ou plus pour le champ du prénom.")
     } else if (!form.first.value.trim().match(regex.name)) {
-        formValid = false;
-        console.log("Prénom invalide")
+        errorMessage(form.first,"Veuillez renseigner un prénom valide.")
+    } else {
+        form.first.parentNode.setAttribute("data-error-visible","false")
     }
 
     // Lastname validation length and caracters
     if(form.last.value.trim().length < 2) {
-        form.last.classList.add("error")
-        console.log("Veuillez entrer 2 caractères ou plus pour le champ du nom.")
-        formValid = false;
+        errorMessage(form.last,"Veuillez entrer 2 caractères ou plus pour le champ du nom.")
     } else if (!form.last.value.trim().match(regex.name)) {
-        formValid = false;
-        console.log("Nom invalide")
+        errorMessage(form.last,"Veuillez renseigner un nom valide.")
+    } else {
+        form.last.parentNode.setAttribute("data-error-visible","false")
     }
 
     // Email validation formats
     if (!form.email.value.trim().match(regex.email)) {
-        formValid = false;
-        console.log("Email invalide")
+        errorMessage(form.email,"Veuillez renseigner une adresse email valide.")
+    } else {
+        form.email.parentNode.setAttribute("data-error-visible","false")
     }
 
      // DOB validation
-    if (form.birthdate.value === "" || form.birthdate.value > maxDOB) {
-        formValid = false;
-        console.log("Date d'anniversaire invalide")
+    if (form.birthdate.value === "" || (minDOB > form.birthdate.value > maxDOB)) {
+        errorMessage(form.birthdate,"Veuillez renseigner votre date de naissance.")
+    } else {
+        form.birthdate.parentNode.setAttribute("data-error-visible","false")
     }
 
     // Quantity validation
     if (!form.quantity.value.match(regex.quantity)) {
-        formValid = false;
-        console.log("Veuillez indiquer un chiffre")
+        errorMessage(form.quantity,"Veuillez renseigner un nombre de tournois.")
+    } else {
+        form.quantity.parentNode.setAttribute("data-error-visible","false")
     }
 
     // Location validation
     if(!form.location.value) {
-        formValid = false;
-        console.log("Veuillez indiquer une localisation")
+        errorMessage(form.location1,"Veuillez selectionner un tournoi.")
+    } else {
+        form.location1.parentNode.setAttribute("data-error-visible","false")
     }
 
     // Terms checked validation
     if(!form.checkbox1.checked) {
-        formValid = false;
-        console.log("Vous devez accepter les conditions d'utilisation")
+        errorMessage(form.checkbox1,"Vous devez lire et accepter les conditions générales.")
+    } else {
+        form.checkbox1.parentNode.setAttribute("data-error-visible","false")
     }
 
     // Form submit
-    if (formValid == true){
-        console.log("Validate")
+    if (formValid){
+        success.style.display = "flex";
+        form.style.display = "none";
+        form.reset();
     }
-    else{
-        e.preventDefault();
-    }
-});
+    
+    return false;
+}
