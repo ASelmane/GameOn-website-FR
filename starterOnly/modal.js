@@ -41,14 +41,16 @@ modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
 // launch modal form
 function launchModal() {
-  modalbg.style.display = "block";
+  modalbg.style.display = "flex";
   form.style.display = "block";
+  document.body.style.overflow='hidden';
 }
 
 // Close modal form
 function closeModal() {
     modalbg.style.display = "none";
     success.style.display = "none";
+    document.body.style.overflow='auto';
 }
 
 // Close modal event

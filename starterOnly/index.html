@@ -13,20 +13,18 @@
 <body>
     <div class="topnav" id="myTopnav">
         <div class="header-logo">
-            <img alt="logo" src="Logo.png" width="auto" height="auto" />
+            <img alt="logo" src="Logo.png" />
         </div>
+        <a href="javascript:void(0);" class="icon" onclick="editNav()">
+            <i class="fa fa-bars"></i>
+        </a>
         <div class="main-navbar">
-
-            <a href="#" class="active"><span>Accueil</span></a>
-            <a href="#"><span>Détails de l'évènement</span></a>
-            <a href="#"><span>À propos</span></a>
+            <a href="#" class="active"><span>Détails de l'évènement</span></a>
+            <a href="#"><span>À Propos</span></a>
             <a href="#"><span>Contact</span></a>
             <a href="#"><span>Évènements passés</span></a>
-            <a href="javascript:void(0);" class="icon" onclick="editNav()">
-                <i class="fa fa-bars"></i>
-            </a>
         </div>
-    </div>
+        
     </div>
     <main>
         <div class="hero-section">
@@ -72,7 +70,7 @@
                             <label for="birthdate">Date de naissance</label><br>
                             <input class="text-control" type="date" id="birthdate" name="birthdate" min="1900-01-01"/><br>
                         </div>
-                        <div class="formData">
+                        <div class="formData lg">
                             <label for="quantity">À combien de tournois GameOn avez-vous déjà participé ?</label><br>
                             <input type="number" class="text-control" id="quantity" name="quantity" min="0" max="99">
                         </div>
@@ -107,8 +105,8 @@
                                 Portland</label>
                         </div>
                         <div class="formData">
-                            <input class="checkbox-input" type="checkbox" id="checkbox1" />
-                            <label class="checkbox2-label" for="checkbox1" required>
+                            <input class="checkbox-input" type="checkbox" id="checkbox1"/>
+                            <label class="checkbox2-label" for="checkbox1">
                                 <span class="checkbox-icon"></span>
                                 J'ai lu et accepté les conditions d'utilisation.
                             </label><br>
