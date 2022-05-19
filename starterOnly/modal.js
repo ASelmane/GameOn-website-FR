@@ -1,5 +1,5 @@
 function editNav() {
-  var x = document.getElementById("myTopnav");
+  let x = document.getElementById("myTopnav");
   if (x.className === "topnav") {
     x.className += " responsive";
   } else {
@@ -14,6 +14,7 @@ const formData = document.querySelectorAll(".formData");
 const form = document.getElementById("form");
 const success = document.getElementById("success");
 const successBtn = document.querySelector(".btn-success");
+const closeBtn = document.querySelector(".close");
 
 const regex ={
     name: /^[A-Za-zÀ-ÖØ-öø-ÿ]+$/, 
@@ -22,10 +23,10 @@ const regex ={
 };
 
 // Date of birth limit
-var date = new Date();
-var day = date.getDate();
-var month = date.getMonth() + 1;
-var year = date.getFullYear()-14;
+let date = new Date();
+let day = date.getDate();
+let month = date.getMonth() + 1;
+let year = date.getFullYear()-14;
 if (day < 10) {
     day = '0' + day;
 }
@@ -55,23 +56,26 @@ function closeModal() {
 
 // Close modal event
 successBtn.addEventListener("click",closeModal);
+closeBtn.addEventListener("click",closeModal);
+
+// Message error
+function errorMessage(input, message) {
+    input.parentNode.setAttribute("data-error-visible","true")
+    input.parentNode.setAttribute("data-error",message)
+}
 
 // Form validation
-function validate() {
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
     let formValid = true;
-
-    // Message error
-    function errorMessage(input, message) {
-        input.parentNode.setAttribute("data-error-visible","true")
-        input.parentNode.setAttribute("data-error",message)
-        formValid = false;
-    }
 
     // Firstname validation length and caracters
     if(form.first.value.trim().length < 2) {
         errorMessage(form.first,"Veuillez entrer 2 caractères ou plus pour le champ du prénom.")
+        formValid = false;
     } else if (!form.first.value.trim().match(regex.name)) {
         errorMessage(form.first,"Veuillez renseigner un prénom valide.")
+        formValid = false;
     } else {
         form.first.parentNode.setAttribute("data-error-visible","false")
     }
@@ -79,8 +83,10 @@ function validate() {
     // Lastname validation length and caracters
     if(form.last.value.trim().length < 2) {
         errorMessage(form.last,"Veuillez entrer 2 caractères ou plus pour le champ du nom.")
+        formValid = false;
     } else if (!form.last.value.trim().match(regex.name)) {
         errorMessage(form.last,"Veuillez renseigner un nom valide.")
+        formValid = false;
     } else {
         form.last.parentNode.setAttribute("data-error-visible","false")
     }
@@ -88,6 +94,7 @@ function validate() {
     // Email validation formats
     if (!form.email.value.trim().match(regex.email)) {
         errorMessage(form.email,"Veuillez renseigner une adresse email valide.")
+        formValid = false;
     } else {
         form.email.parentNode.setAttribute("data-error-visible","false")
     }
@@ -95,6 +102,7 @@ function validate() {
      // DOB validation
     if (form.birthdate.value === "" || (minDOB > form.birthdate.value > maxDOB)) {
         errorMessage(form.birthdate,"Veuillez renseigner votre date de naissance.")
+        formValid = false;
     } else {
         form.birthdate.parentNode.setAttribute("data-error-visible","false")
     }
@@ -102,6 +110,7 @@ function validate() {
     // Quantity validation
     if (!form.quantity.value.match(regex.quantity)) {
         errorMessage(form.quantity,"Veuillez renseigner un nombre de tournois.")
+        formValid = false;
     } else {
         form.quantity.parentNode.setAttribute("data-error-visible","false")
     }
@@ -109,6 +118,7 @@ function validate() {
     // Location validation
     if(!form.location.value) {
         errorMessage(form.location1,"Veuillez selectionner un tournoi.")
+        formValid = false;
     } else {
         form.location1.parentNode.setAttribute("data-error-visible","false")
     }
@@ -116,6 +126,7 @@ function validate() {
     // Terms checked validation
     if(!form.checkbox1.checked) {
         errorMessage(form.checkbox1,"Vous devez lire et accepter les conditions générales.")
+        formValid = false;
     } else {
         form.checkbox1.parentNode.setAttribute("data-error-visible","false")
     }
@@ -124,8 +135,7 @@ function validate() {
     if (formValid){
         success.style.display = "flex";
         form.style.display = "none";
+        console.log('form sent !');
         form.reset();
     }
-    
-    return false;
-}
+})

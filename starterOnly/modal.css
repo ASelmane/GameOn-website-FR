@@ -16,7 +16,6 @@ body {
     margin: 0;
     display: flex;
     flex-direction: column;
-    background-image: url("background.png");
     font-family: var(--font-default);
     font-size: 1em;
     max-width: 1300px;
@@ -212,13 +211,14 @@ input {
 
 .formData[data-error]::after {
     content: attr(data-error);
-    font-size: 0.5em;
+    font-size: 0.55em;
+    font-weight: lighter;
     color: #e54858;
     display: block;
     margin-top: 7px;
     margin-bottom: 7px;
     text-align: left;
-    line-height: 0.3;
+    line-height: 1;
     opacity: 0;
     transition: 0.3s;
 }
@@ -518,7 +518,7 @@ footer {
 
 @media screen and (max-width: 769px) {
     body{
-        font-size: 0.9em;
+        font-size: 1em;
     }
 
     .topnav {
@@ -611,6 +611,7 @@ footer {
     .hero-text {
         width: unset;
         margin-top: 2em;
+        font-size: 1.2em;
     }
 
     .hero-img img {
@@ -636,49 +637,64 @@ footer {
         border-bottom-right-radius: 0;
     }
 
+    .formData.lg {
+        min-height: 5.5em;
+    }
+    .formData {
+        min-height: 4.5em;
+    }
+
     .copyrights {
         margin: 0;
+        font-size: 1.2em;
         text-align: center;
     }
 }
 
-@media screen and (max-width: 660px) {
+@media screen and (max-width: 670px) {
     body {
-        font-size: 0.8em;
+        font-size: 0.9em;
     }
     .content{
-        font-size: 1em;
+        font-size: 1.1em;
     }
+
+    .hero-content{
+        font-size: 0.8em;
+    }
+
 }
 
 @media screen and (max-width: 480px) {
     body {
-        font-size: 0.6em;
+        font-size: 0.85em;
     }
 
     .content{
         font-size: 1.3em;
     }
-    
+
+    .hero-content{
+        font-size: 0.7em;
+    }
+
     .checkbox-label, .checkbox2-label{
         margin-left: 8%;
-    }
-
-    .formData[data-error]::after {
-        font-size: 0.4em;
-    }
-}
-
-
-@media screen and (max-width: 375px) {
-    body {
-        font-size: 0.5em;
     }
 
     .checkbox-label .checkbox-icon, .checkbox2-label .checkbox-icon{
         width: 15px;
         height: 15px;
         left: -20px;
+    }
+}
+
+@media screen and (max-width: 380px) {
+    body {
+        font-size: 0.72em;
+    }
+    .hero-content{
+        font-size: 0.72em;
     }
 }
 
